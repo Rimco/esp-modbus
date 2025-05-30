@@ -328,6 +328,7 @@ int mb_drv_open(void *ctx, mb_uid_info_t addr_info, int flags)
 err:
     free(pnode_info);
     pdrv_ctx->mb_nodes[fd] = NULL;
+    pdrv_ctx->mb_node_open_count--;
     mb_drv_unlock(ctx);
     return UNDEF_FD;
 }
@@ -427,6 +428,7 @@ int mb_drv_close(void *ctx, int fd)
     pnode_info->addr_info.ip_addr_str = NULL;
     free(pnode_info);
     pdrv_ctx->mb_nodes[fd] = NULL;
+    pdrv_ctx->mb_node_open_count--;
     mb_drv_unlock(ctx);
 
     return 0;
